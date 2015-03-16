@@ -24,16 +24,22 @@ var Sticky = React.createClass({
       this.reset();
     }
 
+    var wasSticky = this.state.sticky, sticky;
     if (this.scrolling) {
       this.scrolling = false;
-      if (pageYOffset > this.elementOffset) {
-        if (typeof this.props.onSticky === 'function') {
-          this.props.onSticky();
-        }
 
-        this.setState({ className: this.props.stickyClassName || 'sticky' });
+      if (pageYOffset > this.elementOffset) {
+        sticky = true;        
       } else {
-        this.setState({ className: '' });
+        sticky = false;
+      }
+
+      if (wasSticky !== sticky) {
+        this.setState({ sticky: sticky });
+
+        if (typeof this.props.onStickyChange === 'function') {
+          this.props.onStickyChange(sticky);
+        }
       }
     }
   },  
@@ -47,7 +53,7 @@ var Sticky = React.createClass({
   },
 
   getInitialState: function() {
-    return { className: '' }; 
+    return { sticky: false }; 
   },
 
   componentDidMount: function() {
@@ -65,7 +71,7 @@ var Sticky = React.createClass({
 
   render: function() {
     return React.DOM.div({
-      className: this.state.className
+      className: this.state.sticky ? (this.props.stickyClassName || 'sticky') : ''
     }, this.props.children);
   }
 });
