@@ -70,7 +70,7 @@ var Sticky = React.createClass({
   },
 
   render: function() {
-    return React.createElement('div', {
+    return React.DOM.div({
       className: this.state.sticky ? (this.props.stickyClassName || 'sticky') : ''
     }, this.props.children);
   }
