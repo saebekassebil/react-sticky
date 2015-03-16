@@ -27,6 +27,10 @@ var Sticky = React.createClass({
     if (this.scrolling) {
       this.scrolling = false;
       if (pageYOffset > this.elementOffset) {
+        if (typeof this.props.onSticky === 'function') {
+          this.props.onSticky();
+        }
+
         this.setState({ className: this.props.stickyClassName || 'sticky' });
       } else {
         this.setState({ className: '' });
